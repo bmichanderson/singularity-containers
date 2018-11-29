@@ -25,7 +25,7 @@ From: ubuntu:18.04
 	URL=https://github.com/ablab/spades/releases/download/v"$VERSION"/SPAdes-"$VERSION"-Linux.tar.gz
 	wget "$URL"
 	tar -xzf SPAdes-"$VERSION"-Linux.tar.gz
-	SPADES_PATH=$( pwd )/SPAdes-"$VERSION"-Linux/bin
+	echo "export PATH=$PATH:/SPAdes-$VERSION-Linux/bin" >> $SINGULARITY_ENVIRONMENT
 	# Pilon
 	VERSION=1.23
 	URL=https://github.com/broadinstitute/pilon/releases/download/v"$VERSION"/pilon-"$VERSION".jar
@@ -48,8 +48,7 @@ From: ubuntu:18.04
 	unicycler --version
 
 %environment
-	export PATH="$PATH":"$SPADES_PATH"
-
+	
 %help
 	******************************************************************************
 	This message is displayed when called as  >singularity run-help unicycler.img
