@@ -9,19 +9,17 @@ From: ubuntu:18.04
 	MAINTAINER bmichanderson
 
 %post
-	# This section is executed after the base OS has been created
+	# This section is executed after the base OS has been installed
 	# Upgrade software and install essentials for building KAT
 	apt update
-	apt -y upgrade
-	apt install -y build-essential make autoconf automake libtool libpthread-stubs0-dev zlib1g-dev wget software-properties-common git
-	
+	apt install -y build-essential make autoconf automake libtool libpthread-stubs0-dev \
+			zlib1g zlib1g-dev wget software-properties-common git
 	# Install python packages
 	apt-add-repository universe
 	apt update
 	apt -y upgrade
-	apt install -y python3-dev python3-pip
-	pip3 install setuptools tabulate scipy numpy matplotlib
-	
+	apt install -y python3-pip
+	pip3 install setuptools tabulate scipy numpy matplotlib sphinx
 	# Install KAT
 	# NOTE: the following lines were my first attempt, but it seems like v2.4.1
 	# has a problem with installing the python scripts or correctly locating them.
@@ -36,9 +34,8 @@ From: ubuntu:18.04
 	./autogen.sh
 	./configure
 	# can leverage extra cores with the -j option
-	make -j 6
+	make -j6
 	make install
-
 	# test that the program works
 	kat --version
 
