@@ -1,9 +1,8 @@
 # Author: B. Anderson
 # Description: a Singularity definition file for creating a container for using the program KAT (Kmer Analysis Toolkit)
 
-Bootstrap: debootstrap					# need to have this installed if building container locally
-OSVersion: bionic					# the name of the version (of Ubuntu for this instance)
-MirrorURL: http://ubuntu.mirror.su.se/ubuntu/		# the place to download from (here Stockholm Uni mirror)
+Bootstrap: docker
+From: ubuntu: 18.04
 
 %labels
 	# This section contains labels for the container
