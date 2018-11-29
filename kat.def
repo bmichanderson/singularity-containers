@@ -1,0 +1,55 @@
+# Author: B. Anderson
+# Description: a Singularity definition file for creating a container for using the program KAT (Kmer Analysis Toolkit)
+
+Bootstrap: debootstrap					# need to have this installed if building container locally
+OSVersion: bionic					# the name of the version (of Ubuntu for this instance)
+MirrorURL: http://ubuntu.mirror.su.se/ubuntu/		# the place to download from (here Stockholm Uni mirror)
+
+%labels
+	# This section contains labels for the container
+	MAINTAINER bmichanderson
+
+%post
+	# This section is executed after the base OS has been created
+	# Upgrade software and install essentials for building KAT
+	apt update
+	apt -y upgrade
+	apt install -y build-essential make autoconf automake libtool libpthread-stubs0-dev zlib1g-dev wget software-properties-common git
+	
+	# Install python packages
+	apt-add-repository universe
+	apt update
+	apt -y upgrade
+	apt install -y python3-dev python3-pip
+	pip3 install setuptools tabulate scipy numpy matplotlib
+	
+	# Install KAT
+	# NOTE: the following lines were my first attempt, but it seems like v2.4.1
+	# has a problem with installing the python scripts or correctly locating them.
+	#VERSION="2.4.1"
+	#URL=https://github.com/TGAC/KAT/archive/Release-"$VERSION".tar.gz
+	#wget "$URL"
+	#tar -xzf Release-"$VERSION".tar.gz
+	#cd KAT-Release-"$VERSION"
+	git clone https://github.com/TGAC/KAT.git
+	cd KAT
+	./build_boost.sh
+	./autogen.sh
+	./configure
+	# can leverage extra cores with the -j option
+	make -j 6
+	make install
+
+	# test that the program works
+	kat --version
+
+%environment
+	# This section is used to define environmental variables
+
+%help
+	******************************************************************************
+	This message is displayed when called as  >singularity run-help kat.img
+	This container is meant to be used for running KAT (Kmer Analysis Toolkit)
+	Execute it as >singularity exec kat.img kat [args]
+	Check contents by entering it as >singularity shell kat.img
+	******************************************************************************
