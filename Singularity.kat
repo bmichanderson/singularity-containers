@@ -2,7 +2,7 @@
 # Description: a Singularity definition file for creating a container for using the program KAT (Kmer Analysis Toolkit)
 
 Bootstrap: docker
-From: ubuntu: 18.04
+From: ubuntu:18.04
 
 %labels
 	# This section contains labels for the container
