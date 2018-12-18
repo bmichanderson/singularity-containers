@@ -7,7 +7,7 @@ From: ubuntu:18.04
 %labels
 	MAINTAINER bmichanderson
 	PROGRAM Unicycler
-	VERSION 1.23
+	VERSION latest
 
 %post
 	# install essentials for obtaining and building software
