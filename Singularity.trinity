@@ -101,6 +101,7 @@ From: ubuntu:18.04
 	# Set up environmental variables within the container
 	
 	TRINITY_HOME=/usr/local/bin/trinityrnaseq-Trinity-v2.8.5
+	export TRINITY_HOME
 
 	export LC_ALL=en_US.UTF-8
 
