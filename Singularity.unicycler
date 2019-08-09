@@ -81,7 +81,8 @@ From: ubuntu:18.04
 %environment
 
 	# Set up environmental variables within the container
-	
+
+	SPADES_VERSION=3.13.1	
 	PATH="$PATH":/SPAdes-"$SPADES_VERSION"-Linux/bin
 	export PATH
 
