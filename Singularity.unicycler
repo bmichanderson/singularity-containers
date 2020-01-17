@@ -31,7 +31,7 @@ From: ubuntu:18.04
 
 		# SPAdes
 
-		SPADES_VERSION=3.13.1
+		SPADES_VERSION=3.14.0
 		URL=https://github.com/ablab/spades/releases/download/v"$SPADES_VERSION"/SPAdes-"$SPADES_VERSION"-Linux.tar.gz
 		wget "$URL"
 		tar -xzf SPAdes-"$SPADES_VERSION"-Linux.tar.gz
@@ -82,7 +82,7 @@ From: ubuntu:18.04
 
 	# Set up environmental variables within the container
 
-	SPADES_VERSION=3.13.1	
+	SPADES_VERSION=3.14.0	
 	PATH="$PATH":/SPAdes-"$SPADES_VERSION"-Linux/bin
 	export PATH
 
