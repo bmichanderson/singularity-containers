@@ -1,9 +1,10 @@
 # Author: B. Anderson
 # Singularity recipe for creating a container for using the program Stacks (https://catchenlab.life.illinois.edu/stacks/)
+# NOTE: in order to use this on the supercomputing system, I have to compile it with OpenMPI installed (see image)
 
 
 Bootstrap: docker
-From: ubuntu:20.04
+From: pawsey/mpich-base:3.1.4_ubuntu18.04
 
 
 %labels
@@ -15,23 +16,27 @@ From: ubuntu:20.04
 %post
 	# install essentials for obtaining and building software
 
+	export DEBIAN_FRONTEND=noninteractive
+
 	apt update && apt upgrade -y && apt install -y autoconf automake build-essential wget zlib1g-dev
+
 
 	# build and install the program
 
-		STACKS_VERSION=2.58
-		URL=https://catchenlab.life.illinois.edu/stacks/source/stacks-"${STACKS_VERSION}".tar.gz
-		wget "$URL"
-		tar -xzf stacks-"${STACKS_VERSION}".tar.gz
-		rm stacks-"${STACKS_VERSION}".tar.gz
+	STACKS_VERSION=2.58
+	URL=https://catchenlab.life.illinois.edu/stacks/source/stacks-"${STACKS_VERSION}".tar.gz
+	wget "$URL"
+	tar -xzf stacks-"${STACKS_VERSION}".tar.gz
+	rm stacks-"${STACKS_VERSION}".tar.gz
 
-		cd stacks-"${STACKS_VERSION}"
-		./configure
-		make -j 8
-		make install
+	cd stacks-"${STACKS_VERSION}"
+	./configure
+	make -j 8
+	make install
 
-		cd ..
-		rm -r stacks-"${STACKS_VERSION}"
+	cd ..
+	rm -r stacks-"${STACKS_VERSION}"
+
 
 	# clean-up
 
@@ -40,8 +45,6 @@ From: ubuntu:20.04
 
 %test
 	# test that the program works
-
-	#cstacks
 
 
 %environment
