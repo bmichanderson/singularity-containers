@@ -10,8 +10,15 @@ From: continuumio/miniconda3
 	VERSION latest
 
 %post
-	# install ipyrad with conda
-	conda install ipyrad -c conda-forge -c bioconda
+	# install ipyrad with conda along with packages for analysis
+	conda install ipyrad scikit-learn -c conda-forge -c bioconda
+	#conda install scikit-learn -c conda-forge -c bioconda		# for pca
+	#conda install tetrad -c eaton-lab -c conda-forge
+	#conda install -c ipyrad structure clumpp
+	#conda install sratools -c bioconda
+	#conda install treemix -c bioconda -c conda-forge
+	#conda install raxml -c bioconda
+	#conda install mrbayes -c bioconda -c conda-forge
 
 
 %test
@@ -36,9 +43,10 @@ From: continuumio/miniconda3
 
 	This container is for running ipyrad
 
-	To run, use: singularity run [container] [args]
-	or: singularity exec [container] ipyrad [args]
+	To run, use: singularity run ipyrad.sif [args]
+	
+	To execute a python script: singularity exec ipyrad.sif python [script] [args]
 
-	Check contents by entering it as: singularity shell [container]
+	Check contents by entering it as: singularity shell ipyrad.sif
 
 	******************************************************************************
