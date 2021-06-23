@@ -4,7 +4,7 @@
 
 
 Bootstrap: docker
-From: pawsey/mpich-base:3.1.4_ubuntu18.04
+From: pawsey/openmpi-base:2.1.2_ubuntu18.04
 
 
 %labels
