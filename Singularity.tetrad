@@ -1,0 +1,45 @@
+# Author: B. Anderson
+# Singularity recipe for creating a container for using the program tetrad as part of ipyrad
+
+
+Bootstrap: docker
+From: continuumio/miniconda3
+
+
+%labels
+	MAINTAINER bmichanderson
+	PROGRAM tetrad
+	VERSION latest
+
+
+%post
+	# install ipyrad with conda along with the tetrad package for analysis
+	conda install -c conda-forge \
+	-c bioconda \
+    -c eaton-lab \
+    python=3.7.0 ipyrad tetrad
+	
+    conda clean -ay
+
+
+%test
+	# test that the program works
+
+
+%environment
+	# Set up environmental variables within the container
+
+
+%runscript
+	# This will be executed when the container is run (singularity run [container])
+	tetrad "$@"
+
+
+%help
+	# This message is displayed when called as: singularity run-help [container]
+	******************************************************************************
+	This container is for running tetrad as part of the ipyrad program
+	To run, use: singularity run tetrad.sif [args]
+	To execute a python script: singularity exec tetrad.sif python [script] [args]
+	Check contents by entering it as: singularity shell tetrad.sif
+	******************************************************************************
