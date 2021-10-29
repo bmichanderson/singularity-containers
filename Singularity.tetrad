@@ -16,14 +16,19 @@ From: continuumio/miniconda3
 	# install ipyrad with conda along with the tetrad package for analysis
 	conda install -c conda-forge \
 	-c bioconda \
-    -c eaton-lab \
-    python=3.7.0 ipyrad tetrad
-	
+	ipyrad
+    #-c eaton-lab \
+    #python=3.7.0 ipyrad #tetrad
+	# NOTE: to get the most current github version, I will now no longer use conda for tetrad
     conda clean -ay
 
-
-%test
-	# test that the program works
+	# install via github version
+	apt update && apt install git
+	git clone https://github.com/eaton-lab/tetrad.git
+	cd tetrad
+	python setup.py install
+	cd ..
+	rm -r tetrad
 
 
 %environment
