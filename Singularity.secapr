@@ -170,8 +170,8 @@ From: ubuntu:20.04
 		tar -xjf samtools-"$VER".tar.bz2 && rm samtools-"$VER".tar.bz2
 		cd samtools-"$VER"
 		./configure
-    	make
-    	make install
+		make
+		make install
 		cd .. && rm -r samtools-"$VER"
 
 		# SPAdes
