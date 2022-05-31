@@ -206,7 +206,9 @@ From: ubuntu:20.04
 	# since conda install doesn't seem to work, let's try directly from github
 	# note: this doesn't seem to set the version properly when pip installs
 	VER=2.2.8
-	URL=https://github.com/AntonelliLab/seqcap_processor/archive/refs/tags/v"$VER".tar.gz
+	#URL=https://github.com/AntonelliLab/seqcap_processor/archive/refs/tags/v"$VER".tar.gz
+	# note: I've made a small patch of paralogs_to_ref.py, so I'll use my fork for now
+	URL=https://github.com/bmichanderson/seqcap_processor/archive/refs/tags/v2.2.8_patch2.tar.gz
 	pip install "$URL"
 
 
