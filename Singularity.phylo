@@ -14,6 +14,7 @@ From: ubuntu:20.04
 
 %help
 	This container is for running phylogenetic analysis tasks and programs
+		ASTER (includes weighted ASTRAL) v. 1.13
 		ASTRAL v. 5.7.1
 		Clustal Omega v. 1.2.4
 		FastTreeMP v. 2.1.11
@@ -21,6 +22,7 @@ From: ubuntu:20.04
 		MAFFT v. 7.453
 		MUSCLE v. 3.8.1551
 		Newick Utilities
+		pal2nal v. 14
 		trimAl v. 1.4
 
 	To use programs in it, call as:
@@ -29,6 +31,10 @@ From: ubuntu:20.04
 		singularity exec -H "$(pwd)" phylo.sif java -jar /Astral/astral.5.7.1.jar [options]
 	or for trimal:
 		singularity exec -H "$(pwd)" phylo.sif trimal [options]
+	or for weighted ASTRAL:
+		singularity exec -H "$(pwd)" phylo.sif astral-hybrid [options]
+	or pal2nal:
+		singularity exec -H "$(pwd)" phylo.sif pal2nal [options]
 
 
 %post
@@ -58,6 +64,17 @@ From: ubuntu:20.04
 	## set locale
 	locale-gen en_US.UTF-8
 	echo "LANG=en_US.UTF-8" >> /etc/default/locale
+
+
+	## ASTER
+	AST_VER=1.13
+	URL=https://github.com/chaoszhang/ASTER/archive/refs/tags/v"$AST_VER".tar.gz
+	wget $URL
+	tar -xzf v"$AST_VER".tar.gz && rm v"$AST_VER".tar.gz
+	cd ASTER-"$AST_VER"
+	make
+	mv bin/* /usr/bin
+	cd .. && rm -r ASTER-"$AST_VER"
 
 
 	## ASTRAL
@@ -98,6 +115,16 @@ From: ubuntu:20.04
 	make check
 	make install
 	cd .. && rm -r newick_utils
+
+
+	## pal2nal
+	URL=http://www.bork.embl.de/pal2nal/distribution/pal2nal.v14.tar.gz
+	wget "$URL"
+	tar -xzf pal2nal.v14.tar.gz && rm pal2nal.v14.tar.gz
+	cp pal2nal.v14/pal2nal.pl /usr/bin/
+	echo 'perl /usr/bin/pal2nal.pl "$@"' > /usr/bin/pal2nal
+	chmod 755 /usr/bin/pal2nal
+	rm -r pal2nal.v14/
 
 
 	## trimAl
