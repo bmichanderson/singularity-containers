@@ -18,7 +18,7 @@ From: ubuntu:20.04
 		ASTRAL v. 5.7.1
 		Clustal Omega v. 1.2.4
 		FastTreeMP v. 2.1.11
-		IQ-TREE v. 2.1.2
+		IQ-TREE v. 2.2.2
 		MAFFT v. 7.453
 		MUSCLE v. 3.8.1551
 		Newick Utilities
@@ -101,7 +101,7 @@ From: ubuntu:20.04
 
 
 	## IQ-TREE
-	IQ_VER=2.1.2
+	IQ_VER=2.2.2
 	URL=https://github.com/iqtree/iqtree2/releases/download/v"$IQ_VER"/iqtree-"$IQ_VER"-Linux.tar.gz
 	wget "$URL"
 	tar -xzf iqtree-"$IQ_VER"-Linux.tar.gz && rm iqtree-"$IQ_VER"-Linux.tar.gz
