@@ -1,7 +1,7 @@
 # Author: B.M. Anderson
 # Singularity recipe for creating a container for using the program HybPiper (https://github.com/mossmatters/HybPiper)
 # This container is built to emulate a conda environment install
-# When building, use `sudo singularity build -B /run:/run hybpiper.sif Singularity.hybpiper`
+# When building, you may need to use `sudo singularity build -B /run:/run hybpiper.sif Singularity.hybpiper`
 
 
 Bootstrap: docker
@@ -11,7 +11,7 @@ From: continuumio/miniconda3
 %labels
 	MAINTAINER bmichanderson
 	PROGRAM HybPiper
-	VERSION 2.3.2
+	VERSION 2.3.3
 
 
 %help
@@ -28,7 +28,7 @@ From: continuumio/miniconda3
 
 %post
 	# set version
-	export HVER="2.3.2"
+	export HVER="2.3.3"
 
 	# set frontend for package installation
 	export DEBIAN_FRONTEND=noninteractive
