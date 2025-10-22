@@ -27,8 +27,10 @@ From: continuumio/miniconda3
 
 
 %post
-	# set version
+	# set versions
+	export PVER="3.11"
 	export HVER="2.3.3"
+
 
 	# set frontend for package installation
 	export DEBIAN_FRONTEND=noninteractive
@@ -44,7 +46,7 @@ From: continuumio/miniconda3
 	# install with conda
 	. /opt/conda/etc/profile.d/conda.sh
 	conda activate $MY_ENV
-	conda install hybpiper="$HVER"
+	conda install python="$PVER" hybpiper="$HVER"
 	
 	conda clean -ay
 
