@@ -10,7 +10,7 @@ From: continuumio/miniconda3
 %labels
 	MAINTAINER bmichanderson
 	PROGRAM ipyrad
-	VERSION latest
+	VERSION 0.9.104
 
 
 %help
@@ -30,7 +30,11 @@ From: continuumio/miniconda3
 
 
 %post
+	# set version
+	ipyrad_ver=0.9.104
+
 	# set up so that conda doesn't break...
+	export CONDA_PLUGINS_AUTO_ACCEPT_TOS=yes
 	mkdir /opt/conda/pkgs
 	conda config --add pkgs_dirs /opt/conda/pkgs
 
@@ -43,7 +47,7 @@ From: continuumio/miniconda3
 	conda install -c conda-forge python=3.10
 
 	# install ipyrad with conda
-	conda install -c conda-forge -c bioconda ipyrad
+	conda install -c conda-forge -c bioconda ipyrad="$ipyrad_ver"
 	
 	conda clean -ay
 
