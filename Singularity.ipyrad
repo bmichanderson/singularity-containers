@@ -10,7 +10,7 @@ From: continuumio/miniconda3
 %labels
 	MAINTAINER bmichanderson
 	PROGRAM ipyrad
-	VERSION 0.9.104
+	VERSION 0.9.107
 
 
 %help
@@ -31,7 +31,7 @@ From: continuumio/miniconda3
 
 %post
 	# set version
-	ipyrad_ver=0.9.104
+	ipyrad_ver=0.9.107
 
 	# set up so that conda doesn't break...
 	export CONDA_PLUGINS_AUTO_ACCEPT_TOS=yes
