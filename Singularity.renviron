@@ -1,0 +1,70 @@
+# Author: B. Anderson
+# Singularity recipe for creating a container for using R and various packages
+
+
+Bootstrap: docker
+From: r-base:4.4.0
+
+
+%labels
+	MAINTAINER bmichanderson
+	PROGRAM R
+	VERSION 4.4.0
+
+
+%help
+	This container is for running an R environment with select packaes
+
+	To run Rscripts, use: 
+		singularity run -H $(pwd) renviron.sif [script_name] [args]
+
+
+%post
+	export DEBIAN_FRONTEND=noninteractive
+
+	# install dependencies
+	apt update && apt install -y --no-install-recommends \
+		automake \
+		autoconf \
+		binutils \
+		build-essential \
+		bzip2 \
+		libcurl4-openssl-dev \
+		libfontconfig1-dev \
+		libfreetype6-dev \
+		libfribidi-dev \
+		libharfbuzz-dev \
+		libjpeg-dev \
+		libpng-dev \
+		libssl-dev \
+		libtiff5-dev \
+		libtool \
+		libwebp-dev \
+		libxml2-dev \
+		m4 \
+		perl \
+		pkg-config
+
+
+	## R packages
+	R -e 'install.packages("remotes", repos = "https://cloud.r-project.org/")'
+
+	R -e 'require(remotes); install_version("devtools", version = "2.4.6", repos = "https://cloud.r-project.org/")'
+	R -e 'require(remotes); install_version("ape", version = "5.8-1", repos = "https://cloud.r-project.org/")'
+	R -e 'require(remotes); install_version("adegenet", version = "2.1.11", repos = "https://cloud.r-project.org/")'
+	R -e 'require(remotes); install_version("vcfR", version = "1.15", repos = "https://cloud.r-project.org/")'
+
+	R -e 'require(devtools); install_github("simjoly/pofadinr")'
+
+
+	# clean-up
+	apt autoremove -y && apt clean all
+
+
+%environment
+	# Set up environmental variables within the container
+
+
+%runscript
+	# This will be executed when the container is run (singularity run [container])
+	Rscript $@
