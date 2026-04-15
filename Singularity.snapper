@@ -10,7 +10,7 @@ From: ubuntu:22.04
 %labels
 	MAINTAINER bmichanderson
 	PROGRAM BEAST2, SNAPPER, SPEEDEMON
-	VERSION 2.7.7, latest, latest
+	VERSION 2.7.8, latest, latest
 
 
 %help
@@ -39,11 +39,19 @@ From: ubuntu:22.04
 
 
 	# download and install BEAST2
+	# note: v. 2.7.8 is an update, but installation release is only available for 2.7.7
+	#	It appears that simply installing the below packages will automatically update the base package
+	#	The command line use of packagemanager doesn't function for option '-updatenow' (says BEAUti needs to restart)
 	BEAST_VER=2.7.7
 	URL=https://github.com/CompEvol/beast2/releases/download/v${BEAST_VER}/BEAST.v${BEAST_VER}.Linux.x86.tgz
 	wget "$URL"
 	tar -xzf BEAST.v${BEAST_VER}.Linux.x86.tgz && rm BEAST.v${BEAST_VER}.Linux.x86.tgz
 
+	# add directory to avoid error
+	mkdir -p /root/.beast/2.7
+
+	# update
+	/beast/bin/packagemanager -useAppDir -updatenow
 
 	# install packages for species delimitation
 	/beast/bin/packagemanager -useAppDir -add SNAPP
