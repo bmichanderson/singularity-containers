@@ -42,7 +42,7 @@ From: continuumio/miniconda3
 	# install with conda
 	. /opt/conda/etc/profile.d/conda.sh
 	conda activate $MY_ENV
-	conda install python=3.14 captus="$VER"
+	conda install python=3.14 captus="$VER" salmon=1.10.3=hb7e2ac5_1
 	
 	conda clean -ay
 
