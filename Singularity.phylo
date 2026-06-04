@@ -16,16 +16,16 @@ From: ubuntu:22.04
 	This container is for running phylogenetic analysis tasks and programs
 		ASTER (includes weighted ASTRAL, ASTRAL-PRO, etc.) latest
 		ASTRAL v. 5.7.1
-		ClipKit v. 2.6.1
+		ClipKit v. 2.12.0
 		Clustal Omega v. 1.2.4-7
 		FastTree latest (v. 2.2.0)
-		IQ-TREE v. 2.4.0
+		IQ-TREE v. 3.1.2
 		MAFFT v. 7.490-1
 		MUSCLE v. 3.8.1551
-		Newick Utilities
+		Newick Utilities v. 1.6
 		pal2nal v. 14
-		TreeShrink latest (v. 1.3.9)
-		trimAl v. 1.4
+		TreeShrink latest (v. 1.4.0)
+		trimAl v. 1.5.1
 
 	To use programs in it, call as:
 		singularity exec -H "$(pwd)" phylo.sif [program]
@@ -44,10 +44,10 @@ From: ubuntu:22.04
 
 	# set versions
 	ASTRAL_VER=5.7.1	# Astral
-	CLIP_VER=2.6.1		# ClipKit
-	IQ_VER=2.4.0		# IQ-TREE
-	PAL_VER=14			# pal2nal
-	TA_VER=1.5.0		# TrimAl
+	CLIP_VER=2.12.0		# ClipKit
+	IQ_VER=3.1.2		# IQ-TREE
+	PAL_VER=14.1		# pal2nal
+	TA_VER=1.5.1		# TrimAl
 
 
 	# install dependencies
@@ -61,16 +61,17 @@ From: ubuntu:22.04
 		g++ \
 		git \
 		libtool \
+		libxml2 \
 		locales \
 		mafft \
 		make \
 		muscle \
 		openjdk-8-jre \
 		python3 \
+		python3-numpy \
 		python3-pip \
+		python3-scipy \
 		python3-setuptools \
-		r-base-dev \
-		r-cran-bms \
 		unzip \
 		wget
 
@@ -109,39 +110,38 @@ From: ubuntu:22.04
 	mv FastTree /usr/bin/
 
 	## IQ-TREE
-	URL=https://github.com/iqtree/iqtree2/releases/download/v"$IQ_VER"/iqtree-"$IQ_VER"-Linux-intel.tar.gz
+	URL=https://github.com/iqtree/iqtree3/releases/download/v"$IQ_VER"/iqtree-"$IQ_VER"-Linux.tar.gz
 	wget "$URL"
-	tar -xzf iqtree-"$IQ_VER"-Linux-intel.tar.gz && rm iqtree-"$IQ_VER"-Linux-intel.tar.gz
-	mv iqtree-"$IQ_VER"-Linux-intel/bin/iqtree2 /usr/bin/iqtree2
-	ln -s /usr/bin/iqtree2 /usr/bin/iqtree
-	rm -r iqtree-"$IQ_VER"-Linux-intel
+	tar -xzf iqtree-"$IQ_VER"-Linux.tar.gz && rm iqtree-"$IQ_VER"-Linux.tar.gz
+	mv iqtree-"$IQ_VER"-Linux/bin/iqtree* /usr/bin/
+	ln -s /usr/bin/iqtree3 /usr/bin/iqtree
+	rm -r iqtree-"$IQ_VER"-Linux
 
 	## Newick Utilities
-	git clone https://github.com/tjunier/newick_utils.git
-	cd newick_utils
-	# altered compilation process following https://github.com/bioconda/bioconda-recipes/blob/master/recipes/newick_utils/build.sh
+	# help from https://github.com/bioconda/bioconda-recipes/blob/master/recipes/newick_utils/build.sh
+	# and https://github.com/tjunier/newick_utils/issues/30#issuecomment-2077520676
+	URL=https://github.com/tjunier/newick_utils/archive/da121155a977197cab9fbb15953ca1b40b11eb87.tar.gz
+	wget "$URL" -O newick_utils.tar.gz
+	tar -xzvf newick_utils.tar.gz
+	cd newick_utils-da121155a977197cab9fbb15953ca1b40b11eb87/
 	export CFLAGS="${CFLAGS} -fcommon"
 	export CXXFLAGS="${CXXFLAGS} -fcommon"
 	autoreconf -fi
 	./configure --without-guile --without-lua --with-libxml
 	make
-	make check
 	make install
-	cd .. && rm -r newick_utils
+	cd .. && rm -r newick_utils*
 
 	## pal2nal
-	URL=http://www.bork.embl.de/pal2nal/distribution/pal2nal.v"$PAL_VER".tar.gz
-	wget "$URL"
-	tar -xzf pal2nal.v"$PAL_VER".tar.gz && rm pal2nal.v"$PAL_VER".tar.gz
-	cp pal2nal.v"$PAL_VER"/pal2nal.pl /usr/bin/
+	git clone https://github.com/liaochenlanruo/PAL2NAL.git
+	cp PAL2NAL/pal2nal.pl /usr/bin/
 	echo 'perl /usr/bin/pal2nal.pl "$@"' > /usr/bin/pal2nal
 	chmod 755 /usr/bin/pal2nal
-	rm -r pal2nal.v"$PAL_VER"/
+	rm -r PAL2NAL/
 
 	## TreeShrink
 	git clone https://github.com/uym2/TreeShrink.git
 	cd TreeShrink
-	#R CMD INSTALL -l Rlib dependencies/BMS_0.3.3.tar.gz
 	python3 setup.py install
 	cd .. && rm -r TreeShrink
 
